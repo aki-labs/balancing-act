@@ -16,6 +16,7 @@ const balancingActTitleString = balancingActStrings[ 'balancing-act' ].title;
 
 // constants
 const tandem = Tandem.ROOT;
+const gameEnabled = false;
 
 simLauncher.launch( () => {
 
@@ -30,11 +31,11 @@ simLauncher.launch( () => {
 
   // Create and start the sim
   const screens = [
-    new BAIntroScreen( tandem.createTandem( 'introScreen' ) ),
-    new BalanceLabScreen( tandem.createTandem( 'balanceLabScreen' ) ),
 
-    // Game screen not available in phet-io
-    ...( Tandem.PHET_IO_ENABLED ? [] : [ new BalanceGameScreen( tandem.createTandem( 'gameScreen' ) ) ] )
+    // Game screen enabled check
+    ...( gameEnabled ? [ new BalanceGameScreen( tandem.createTandem( 'gameScreen' ) ) ] : [
+      new BAIntroScreen( tandem.createTandem( 'introScreen' ) ),
+      new BalanceLabScreen( tandem.createTandem( 'balanceLabScreen' ) ),] )
   ];
 
   new Sim( balancingActTitleString, screens, simOptions ).start();
