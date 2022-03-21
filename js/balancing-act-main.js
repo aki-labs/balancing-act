@@ -7,16 +7,13 @@
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import BalanceLabScreen from './balancelab/BalanceLabScreen.js';
 import balancingActStrings from './balancingActStrings.js';
 import BalanceGameScreen from './game/BalanceGameScreen.js';
-import BAIntroScreen from './intro/BAIntroScreen.js';
 
 const balancingActTitleString = balancingActStrings[ 'balancing-act' ].title;
 
 // constants
 const tandem = Tandem.ROOT;
-const gameEnabled = false;
 
 simLauncher.launch( () => {
 
@@ -31,12 +28,8 @@ simLauncher.launch( () => {
 
   // Create and start the sim
   const screens = [
-
-    // Game screen enabled check
-    ...( gameEnabled ? [ new BalanceGameScreen( tandem.createTandem( 'gameScreen' ) ) ] : [
-      new BAIntroScreen( tandem.createTandem( 'introScreen' ) ),
-      new BalanceLabScreen( tandem.createTandem( 'balanceLabScreen' ) ),] )
-  ];
+ new BalanceGameScreen( tandem.createTandem( 'gameScreen' ) )
+   ];
 
   new Sim( balancingActTitleString, screens, simOptions ).start();
 } );

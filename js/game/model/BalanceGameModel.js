@@ -41,7 +41,7 @@ class BalanceGameModel {
    */
   constructor( tandem ) {
 
-    this.timerEnabledProperty = new Property( false );
+    this.timerEnabledProperty = new Property( true );
     this.levelProperty = new Property( 0 ); // Zero-based in the model, though levels appear to the user to start at 1.
     this.challengeIndexProperty = new Property( 0 );
     this.scoreProperty = new Property( 0 );
