@@ -157,7 +157,6 @@ class BalanceGameModel {
    * @private
    */
   setChallenge( balanceChallenge, columnState ) {
-
     // Clear out the previous challenge (if there was one).  Start by resetting the plank.
     this.plank.removeAllMasses();
     this.userControlledMasses.length = 0;
@@ -315,7 +314,7 @@ class BalanceGameModel {
         }
       }
       this.mostRecentScores[ level ].value = this.scoreProperty.get();
-
+      this.addScore(this.scoreProperty.get(), this.elapsedTimeProperty.get());
       // Done with this game, show the results.
       this.gameStateProperty.set( 'showingLevelResults' );
     }
@@ -393,6 +392,23 @@ class BalanceGameModel {
   stopGameTimer() {
     stepTimer.clearInterval( this.gameTimerId );
     this.gameTimerId = null;
+  }
+  /**
+   * @private
+   */
+  async getData() {
+    const url = new URL("http://localhost:3000/api/data");
+        await fetch(url)
+          .then((response) => response.json())
+          .then((data) => console.log(data));
+  }
+  /**
+   * @private
+   */
+  async addScore(points, time) {
+    const url = new URL("http://localhost:3000/api/addscore/alpha&" + points + "&" + time);
+        await fetch(url)
+          .then((data) => console.log(data));
   }
 }
 
