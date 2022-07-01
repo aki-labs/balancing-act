@@ -314,7 +314,7 @@ class BalanceGameModel {
         }
       }
       this.mostRecentScores[ level ].value = this.scoreProperty.get();
-      this.addScore(this.scoreProperty.get(), this.elapsedTimeProperty.get());
+      this.addScore();
       // Done with this game, show the results.
       this.gameStateProperty.set( 'showingLevelResults' );
     }
@@ -396,21 +396,40 @@ class BalanceGameModel {
   /**
    * @private
    */
-  async getData() {
-    const url = new URL("http://localhost:3000/api/data");
-        await fetch(url)
-          .then((response) => response.json())
-          .then((data) => console.log(data));
-  }
+  // async getData() {
+  //   const url = new URL("http://localhost:5000/api/data");
+  //       await fetch(url)
+  //         .then((response) => response.json())
+  //         .then((data) => console.log(data));
+  // }
+
   /**
    * @private
    */
-  async addScore(points, time) {
-    const url = new URL("http://localhost:3000/api/addscore/alpha&" + points + "&" + time);
-        await fetch(url)
-          .then((data) => console.log(data));
+  async addScore() {
+    const level  = this.levelProperty.get() + 1;
+    const score = this.scoreProperty.get()
+    const time = this.elapsedTimeProperty.get();
+    const akiPoints = (score*level*100)-time*level;
+    console.log(akiPoints);
+    const url = new URL( 'http://localhost:5000/api/score/add' );
+        await fetch( url, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify( {
+            userId: 2,
+            gameId: 'balancing-act-game',
+            score: akiPoints,
+            level: level
+          } )
+        } )
+        .then( res => res.json() )
+        .then( res => console.log( res ) );
   }
-}
+} 
 
 
 // statics
